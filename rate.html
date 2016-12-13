@@ -1,0 +1,69 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+
+<dom-module id="icon-toggle">
+    <template>
+        <style>
+            /* local DOM styles go here */
+            :host {
+                display: inline-block;
+            }
+
+            /*
+             * style the local DOM <iron-icon> element...
+             * fill and stroke are SVG-specific CSS properties that set the fill and the outline colors
+             */
+            iron-icon {
+                fill: rgba(0, 0, 0, 0);
+                stroke: currentcolor;
+            }
+
+            /*
+             * :host function matches the host element
+             * [pressed] is a standard CSS attribute selector
+             * this rule matches when the icon-toggle has a pressed attribute set on it
+             */
+            :host([pressed]) iron-icon {
+                fill: currentcolor;
+            }
+        </style>
+        <!--
+        * data binding to link this element's toggleIcon property with the <iron-icon>'s icon property.
+        -->
+        <iron-icon icon="[[toggleIcon]]">
+        </iron-icon>
+    </template>
+
+    <script>
+        /*
+         * This Polymer call registers the element so it's recognized by the browser
+         * The argument to the Polymer call is the new element's prototype
+         * The "is" property on the prototype is the new element's name
+         * It must match the id on the <dom-module> that contains the element's template
+         */
+        Polymer({
+            is: 'icon-toggle',
+            properties: {
+                toggleIcon: String,
+                // add support for the pressed property
+                pressed: {
+                    type: Boolean,
+                    // specifies the property's default value
+                    value: false,
+                    // makes state changes observable outside the element
+                    notify: true,
+                    // makes the state visible to CSS and the querySelector methods
+                    reflectToAttribute: true
+                }
+            },
+            // maps tap event to toggle handler
+            listeners: {
+                'tap': 'toggle'
+            },
+            toggle: function () {
+                this.pressed = !this.pressed;
+            },
+        });
+    </script>
+</dom-module>
+
